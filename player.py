@@ -6,6 +6,7 @@ class Player(CircleShape): # this is the player class that inherits from the Cir
     def __init__(self, x, y, *groups): # updated constructor to accept groups
         super().__init__(x, y, PLAYER_RADIUS, *groups) # pass groups to parent
         self.rotation = 0 # this is the rotation of the player
+        self.shoot_timer = 0
 
     # in the player class
     def triangle(self): # this is the method that draws the player on the screen
@@ -28,6 +29,10 @@ class Player(CircleShape): # this is the player class that inherits from the Cir
         self.rotation += PLAYER_TURN_SPEED * dt
     
     def update(self, dt):
+        if self.shoot_timer > 0:
+            self.shoot_timer -= dt
+            if self.shoot_timer < 0:
+                self.shoot_timer = 0
         keys = pygame.key.get_pressed()
             
         if keys[pygame.K_a]:

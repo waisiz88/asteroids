@@ -37,7 +37,9 @@ def main(): # this is the main function that runs the game
             if event.type == pygame.QUIT: # this is the event that happens when the user clicks the close button
                 return
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                player.shoot()
+                if player.shoot_timer == 0:
+                    player.shoot()
+                    player.shoot_timer = PLAYER_SHOOT_COOLDOWN
 
         dt = clock.tick(60) / 1000.0 # this is the time since the last frame
         # print(f"Frame time: {dt}") # this prints the frame time to the console
@@ -49,6 +51,13 @@ def main(): # this is the main function that runs the game
             if player.collides_with(asteroid):
                 print("Game over!")
                 exit()
+
+        # Bullet-asteroid collision detection
+        for asteroid in asteroids:
+            for shot in shots:
+                if asteroid.collides_with(shot):
+                    asteroid.split()
+                    shot.kill()
 
         for obj in drawable:
             obj.draw(screen)
