@@ -3,6 +3,7 @@ from constants import * # this imports all the constants from the constants.py f
 from player import Player
 from asteroids import Asteroid
 from asteroidfield import AsteroidField
+from shot import Shot
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) # this creates a window that is the size of the screen
 
@@ -15,9 +16,11 @@ def main(): # this is the main function that runs the game
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
+    shots = pygame.sprite.Group()
 
     Asteroid.containers = (asteroids, updatable, drawable)
     AsteroidField.containers = (updatable,)
+    Shot.containers = (shots, updatable, drawable)
 
     x = SCREEN_WIDTH / 2
     y = SCREEN_HEIGHT / 2
@@ -33,6 +36,8 @@ def main(): # this is the main function that runs the game
         for event in pygame.event.get(): # this is the event loop that checks for events
             if event.type == pygame.QUIT: # this is the event that happens when the user clicks the close button
                 return
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                player.shoot()
 
         dt = clock.tick(60) / 1000.0 # this is the time since the last frame
         # print(f"Frame time: {dt}") # this prints the frame time to the console

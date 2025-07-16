@@ -48,3 +48,11 @@ class Player(CircleShape): # this is the player class that inherits from the Cir
         self.position.x = max(0, min(SCREEN_WIDTH, self.position.x))
         self.position.y = max(0, min(SCREEN_HEIGHT, self.position.y))
 
+    def shoot(self):
+        from shot import Shot
+        shot = Shot(self.position.x, self.position.y)
+        velocity = pygame.Vector2(0,1)
+        velocity = velocity.rotate(self.rotation)
+        velocity = velocity * PLAYER_SHOOT_SPEED
+        shot.velocity = velocity
+        return shot
